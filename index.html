@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Fyle TAX Calculator</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+
+  <body>
+    <div class="main">
+      <form action="" id="taxForm">
+        <!-- gross annual Income -->
+        <label for="annualIncome"
+          >Enter gross annual income
+          <span class="tooltip">
+            <img
+              width="20"
+              height="20"
+              src="https://img.icons8.com/ios/100/ask-question--v1.png"
+              alt="ask-question--v1"
+            />
+            <span class="tooltip-text"
+              >Gross Annual is your total salary in a year before any
+              deductions.</span
+            >
+          </span>
+        </label>
+        <div class="customInput">
+          <input
+            type="text"
+            id="annualIncome"
+            placeholder="Enter gross annual income"
+          />
+          <span class="tooltip">
+            <img
+              width="20"
+              height="20"
+              src="https://img.icons8.com/ios/50/box-important--v1.png"
+              alt="box-important--v1"
+            />
+            <span class="tooltip-text">Please enter numbers only</span>
+          </span>
+        </div>
+
+        <!-- extra  Income -->
+        <label for="extraIncome"
+          >Enter extra income
+          <span class="tooltip">
+            <img
+              width="20"
+              height="20"
+              src="https://img.icons8.com/ios/100/ask-question--v1.png"
+              alt="ask-question--v1"
+            />
+            <span class="tooltip-text">Extra income from other resources.</span>
+          </span>
+        </label>
+        <input
+          type="text"
+          id="extraIncome"
+          placeholder="Enter extra income from other resources"
+        />
+
+        <!-- age Group -->
+        <label for="ageGroup"
+          >Enter age group
+          <span class="tooltip">
+            <img
+              width="20"
+              height="20"
+              src="https://img.icons8.com/ios/100/ask-question--v1.png"
+              alt="ask-question--v1"
+            />
+            <span class="tooltip-text">Enter your age group.</span>
+          </span>
+        </label>
+        <input type="number" id="ageGroup" placeholder="Enter age group" />
+
+        <!-- applicable Deductions -->
+        <label for="applicableDeductions"
+          >Enter total applicable deductions
+          <span class="tooltip">
+            <img
+              width="20"
+              height="20"
+              src="https://img.icons8.com/ios/100/ask-question--v1.png"
+              alt="ask-question--v1"
+            />
+            <span class="tooltip-text"
+              >Enter the total applicable deductions.</span
+            >
+          </span>
+        </label>
+        <input
+          type="text"
+          id="applicableDeductions"
+          placeholder="Enter total applicable deductions"
+        />
+
+        <button type="submit">Submit</button>
+      </form>
+      <!-- The Modal -->
+      <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modalContent">
+          <p id="result"></p>
+          <button class="close" id="closeModal">close</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="./index.js"></script>
+  </body>
+</html>
