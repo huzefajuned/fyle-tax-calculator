@@ -31,3 +31,11 @@ This is a simple web-based tax calculator designed to calculate taxes based on v
 ## Live
 
 1.
+
+## Screenshots
+
+![App Screenshot](screenshots/1.png)
+![App Screenshot](/screenshots/2.png)
+![App Screenshot](/screenshots/3.png)
+![App Screenshot](/screenshots/4.png)
+![App Screenshot](/screenshots/5.png)
