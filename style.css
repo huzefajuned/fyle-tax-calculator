@@ -2,6 +2,7 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  font-family: "Times New Roman", Times, serif;
 }
 
 .main {
@@ -28,6 +29,7 @@ form {
   box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
     rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
 }
+
 form > div > input {
   height: 40px;
   width: 100%;
@@ -38,14 +40,39 @@ form > div > input {
   margin-left: 4px;
   color: rgb(128, 131, 136);
 }
-/* .errorMsg {
-  background-color: rebeccapurple;
+
+.errorMsg {
   position: relative;
   display: flex;
   cursor: pointer;
-  top: 100px;
-  padding: 10px;
-} */
+  visibility: hidden;
+}
+
+.errorMsg > span {
+  width: 160px;
+  background-color: #949494;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 130%;
+  right: -125px;
+  transition: opacity 0.3s;
+  margin-left: 1px;
+}
+
+.errorMsg > span::before {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  transform: rotate(45deg);
+  background-color: #949494;
+  padding: 5px;
+  z-index: 1;
+}
+
 .customInput {
   width: 100%;
   display: flex;
@@ -55,6 +82,7 @@ form > div > input {
   border: 2px solid rgb(231, 229, 229);
   border-radius: 4px;
 }
+
 .customInput > input {
   height: 35px;
   width: 100%;
@@ -62,6 +90,7 @@ form > div > input {
   font-size: 18px;
   outline: white;
 }
+
 .customInput > span {
   display: flex;
   flex-direction: row;
@@ -69,9 +98,11 @@ form > div > input {
   align-items: center;
   padding: 2px;
 }
+
 .customInput > span > img {
   margin-right: 5px;
 }
+
 label {
   height: 40px;
   width: 100%;
@@ -81,6 +112,7 @@ label {
   gap: 5px;
   font-size: 20px;
 }
+
 img {
   cursor: pointer;
 }
@@ -91,6 +123,8 @@ select {
   padding: 4px;
   font-size: 15px;
   cursor: pointer;
+  outline: none;
+  border: none;
 }
 
 form > button {
@@ -154,38 +188,69 @@ form > button:hover {
   padding: 10px;
   width: 100%;
   outline: none;
-  border: 2px solid rgb(231, 229, 229);
+  /* border: 2px solid rgb(231, 229, 229); */
   border-radius: 4px;
 }
+
 /* Modal styles */
 .modal {
   display: none;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  position: fixed;
+  z-index: 1;
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
+#result {
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: center;
+  font-size: 18px;
+}
+.heading {
+  font-size: 25px;
+}
+.description {
+  font-size: 16px;
+}
 .modalContent {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
   background-color: #fefefe;
-  margin: 15% auto; /* 15% from the top and centered */
+  margin: 15% auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 30%; /* Could be more or less, depending on screen size */
-  height: 40%;
+  width: 30vw;
+  height: 40vh;
   border-radius: 10px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); /* Box shadow */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+@media only screen and (max-width: 720px) {
+  .modalContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #ffffff;
+    margin: auto;
+    /* padding: 20px; */
+    border: 1px solid #888;
+    width: 80vw;
+    height: 60vh;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
 }
 
 /* Modal close button */

@@ -12,22 +12,52 @@ formData.addEventListener("submit", (e) => {
   const deductions =
     parseFloat(document.getElementById("applicableDeductions").value) || 0;
 
-  console.log("annualIncome", annualIncome);
-  console.log("extraIncome", extraIncome);
-  console.log("age", age);
-  console.log("deductions", deductions);
+  // Hide all error messages initially
+  const errorMessages = document.querySelectorAll(".errorMsg");
+  errorMessages.forEach((errorMsg) => {
+    errorMsg.style.visibility = "hidden";
+  });
 
-  if (annualIncome == 0 || age == 0) {
-    return 0;
+  // Validate inputs
+  let hasError = false;
+  if (!annualIncome) {
+    displayErrorMessage("annualIncome");
+    hasError = true;
   }
+  if (!extraIncome) {
+    displayErrorMessage("extraIncome");
+    hasError = true;
+  }
+  if (!age) {
+    displayErrorMessage("ageGroup");
+    hasError = true;
+  }
+  if (!deductions) {
+    displayErrorMessage("applicableDeductions");
+    console.log("deductions ", deductions);
+    hasError = true;
+  }
+
+  if (hasError) {
+    return;
+  }
+
   const tax = calculateTax(age, annualIncome, extraIncome, deductions);
-  /**
-   * Show the modal after tax calculation.
-   */
   document.getElementById("myModal").style.display = "flex";
   const result = document.getElementById("result");
-  result.innerText = formatIndianNumber(tax);
+  const incomeAfterTax = annualIncome + extraIncome - deductions - tax;
+  const resultText = `<p class="heading">Your Overall Income will be</p> ${formatIndianNumber(
+    incomeAfterTax
+  )} <p class='description'>after tax deduction.</p>`;
+  const resultElement = document.getElementById("result");
+  resultElement.innerHTML = resultText;
 });
+
+// Function to display error message
+function displayErrorMessage(elementId, visibility) {
+  const errorMsg = document.querySelector(`#${elementId} ~ .errorMsg`);
+  errorMsg.style.visibility = visibility || "visible";
+}
 
 // Close modal when clicking outside of it
 window.addEventListener("click", (e) => {
@@ -40,10 +70,10 @@ window.addEventListener("click", (e) => {
 // Close modal when clicking close button
 document.getElementById("closeModal").addEventListener("click", () => {
   document.getElementById("myModal").style.display = "none";
+  window.location.reload();
 });
 
 function calculateTax(age, annualIncome, extraIncome, deductions) {
-  console.log(age, annualIncome, extraIncome, deductions);
   const overallIncome = annualIncome + extraIncome - deductions;
 
   if (overallIncome <= 800000) {
@@ -62,23 +92,11 @@ function calculateTax(age, annualIncome, extraIncome, deductions) {
   }
 }
 
-/**
- * validateInput for inputs validation...
- */
-function validateInput(elementId) {
-  var input = document.getElementById(elementId).value;
-  console.log(input + " &", "id is", elementId);
-}
-
-/**
- *  formatIndianNumber
- */
 function formatIndianNumber(tax) {
   const suffixes = ["", "Lakh", "Crore"];
   let i = 0;
 
   while (tax >= 100000) {
-    // Adjusted the condition to consider lakh as the next unit
     tax /= 100000; // Dividing by 100000 for each lakh
     i++;
   }
@@ -87,5 +105,27 @@ function formatIndianNumber(tax) {
     return `${tax.toFixed(1)} ${suffixes[i]}`;
   } else {
     return `${tax.toFixed(2)} ${suffixes[i]}`;
+  }
+}
+
+/**
+ * validateInput for inputs validation...
+ */
+function validateInput(elementId) {
+  var input = document.getElementById(elementId).value.trim(); // Trim whitespace
+
+  if (input === "") {
+    console.log("Input is empty");
+    return; // Exit the function if input is empty
+  }
+
+  // Check if input matches a valid number format
+  var isValidNumber = /^-?\d*\.?\d+(?:e[+-]?\d+)?$/.test(input);
+
+  if (!isValidNumber) {
+    displayErrorMessage(elementId);
+    hasError = true;
+  } else {
+    displayErrorMessage(elementId, "hidden");
   }
 }
