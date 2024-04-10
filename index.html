@@ -3,9 +3,273 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <title>Fyle TAX Calculator</title>
-    <link rel="stylesheet" href="./style.css" />
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
+
+      .main {
+        background-color: transparent;
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      form {
+        width: 400px;
+        height: 600px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        border: 2px solid rgb(232, 230, 230);
+        border-radius: 10px;
+        padding: 40px;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+          rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+      }
+
+      form > div > input {
+        height: 40px;
+        width: 100%;
+        border: none;
+        font-size: 16px;
+        border: 2px solid rgb(231, 229, 229);
+        border-radius: 4px;
+        margin-left: 4px;
+        color: rgb(128, 131, 136);
+      }
+
+      .errorMsg {
+        position: relative;
+        display: flex;
+        cursor: pointer;
+        visibility: hidden;
+      }
+
+      .errorMsg > span {
+        width: 160px;
+        background-color: #949494;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px;
+        position: absolute;
+        z-index: 1;
+        bottom: 130%;
+        right: -125px;
+        transition: opacity 0.3s;
+        margin-left: 1px;
+      }
+
+      .errorMsg > span::before {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        transform: rotate(45deg);
+        background-color: #949494;
+        padding: 5px;
+        z-index: 1;
+      }
+
+      .customInput {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        border: 2px solid rgb(231, 229, 229);
+        border-radius: 4px;
+      }
+
+      .customInput > input {
+        height: 35px;
+        width: 100%;
+        border: none;
+        font-size: 18px;
+        outline: white;
+      }
+
+      .customInput > span {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 2px;
+      }
+
+      .customInput > span > img {
+        margin-right: 5px;
+      }
+
+      label {
+        height: 40px;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 5px;
+        font-size: 20px;
+      }
+
+      img {
+        cursor: pointer;
+      }
+
+      ::placeholder,
+      select {
+        color: gainsboro;
+        padding: 4px;
+        font-size: 15px;
+        cursor: pointer;
+        outline: none;
+        border: none;
+      }
+
+      form > button {
+        background-color: rgb(12, 49, 108);
+        color: white;
+        font-size: 18px;
+        border-radius: 5px;
+        height: 40px;
+        width: 100%;
+        border: none;
+        outline: none;
+        margin-top: 100px;
+      }
+
+      form > button:hover {
+        color: white;
+        background-color: rgb(0, 0, 0);
+        cursor: pointer;
+      }
+
+      .tooltip {
+        position: relative;
+        display: flex;
+        cursor: pointer;
+        background-color: transparent;
+      }
+
+      .tooltip-text {
+        visibility: hidden;
+        width: 160px;
+        background-color: #949494;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px;
+        position: absolute;
+        z-index: 1;
+        bottom: 125%;
+        right: -125px;
+        opacity: 0;
+        transition: opacity 0.3s;
+        margin-left: 1px;
+      }
+
+      .tooltip:hover .tooltip-text {
+        visibility: visible;
+        opacity: 1;
+      }
+
+      .tooltip-text::before {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        transform: rotate(45deg);
+        background-color: #949494;
+        padding: 5px;
+        z-index: 1;
+      }
+
+      .age {
+        padding: 10px;
+        width: 100%;
+        outline: none;
+        /* border: 2px solid rgb(231, 229, 229); */
+        border-radius: 4px;
+      }
+
+      /* Modal styles */
+      .modal {
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+      }
+
+      .modalContent {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 30vw;
+        height: 40vh;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+          0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      }
+      @media only screen and (max-width: 720px) {
+        .modalContent {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+          align-items: center;
+          background-color: #ffffff;
+          margin: auto;
+          /* padding: 20px; */
+          border: 1px solid #888;
+          width: 80vw;
+          height: 60vh;
+          border-radius: 10px;
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+            0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+      }
+
+      /* Modal close button */
+      .close {
+        color: #aaa;
+        font-size: 38px;
+        background-color: rgb(38, 97, 207);
+        color: white;
+        font-size: 16px;
+        border-radius: 5px;
+        height: 30px;
+        width: 20%;
+        border: none;
+        outline: none;
+        margin-top: 100px;
+      }
+
+      .close:hover,
+      .close:focus {
+        color: rgb(255, 255, 255);
+        text-decoration: none;
+        cursor: pointer;
+        background-color: black;
+      }
+    </style>
   </head>
 
   <body>
@@ -33,18 +297,18 @@
             id="annualIncome"
             placeholder="Enter gross annual income"
           />
-          <span class="tooltip">
+          <span class="errorMsg">
             <img
               width="20"
               height="20"
               src="https://img.icons8.com/ios/50/box-important--v1.png"
               alt="box-important--v1"
             />
-            <span class="tooltip-text">Please enter numbers only</span>
+            <span>Please enter numbers only</span>
           </span>
         </div>
 
-        <!-- extra  Income -->
+        <!-- extra Income -->
         <label for="extraIncome"
           >Enter extra income
           <span class="tooltip">
@@ -57,11 +321,22 @@
             <span class="tooltip-text">Extra income from other resources.</span>
           </span>
         </label>
-        <input
-          type="text"
-          id="extraIncome"
-          placeholder="Enter extra income from other resources"
-        />
+        <div class="customInput">
+          <input
+            type="text"
+            id="extraIncome"
+            placeholder="Enter extra income from other resources"
+          />
+          <span class="errorMsg">
+            <img
+              width="20"
+              height="20"
+              src="https://img.icons8.com/ios/50/box-important--v1.png"
+              alt="box-important--v1"
+            />
+            <span>Please enter numbers only</span>
+          </span>
+        </div>
 
         <!-- age Group -->
         <label for="ageGroup"
@@ -76,7 +351,25 @@
             <span class="tooltip-text">Enter your age group.</span>
           </span>
         </label>
-        <input type="number" id="ageGroup" placeholder="Enter age group" />
+
+        <div class="customInput">
+          <select name="age" class="age" id="ageGroup">
+            <option value="">Choose age group</option>
+            <option value="<40"><40</option>
+            <option value="≥ 40 & < 60">≥ 40 & < 60</option>
+            <option value="≥ 60">≥ 60</option>
+          </select>
+
+          <span class="errorMsg">
+            <img
+              width="20"
+              height="20"
+              src="https://img.icons8.com/ios/50/box-important--v1.png"
+              alt="box-important--v1"
+            />
+            <span> please enter age group</span>
+          </span>
+        </div>
 
         <!-- applicable Deductions -->
         <label for="applicableDeductions"
@@ -93,11 +386,22 @@
             >
           </span>
         </label>
-        <input
-          type="text"
-          id="applicableDeductions"
-          placeholder="Enter total applicable deductions"
-        />
+        <div class="customInput">
+          <input
+            type="text"
+            id="applicableDeductions"
+            placeholder="Enter total applicable deductions"
+          />
+          <span class="errorMsg">
+            <img
+              width="20"
+              height="20"
+              src="https://img.icons8.com/ios/50/box-important--v1.png"
+              alt="box-important--v1"
+            />
+            <span>Please enter numbers only</span>
+          </span>
+        </div>
 
         <button type="submit">Submit</button>
       </form>
@@ -111,6 +415,112 @@
       </div>
     </div>
 
-    <script src="./index.js"></script>
+    <script>
+      const formData = document.getElementById("taxForm");
+
+      formData.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        // Retrieve values from input fields
+        const annualIncome =
+          parseFloat(document.getElementById("annualIncome").value) || 0;
+        const extraIncome =
+          parseFloat(document.getElementById("extraIncome").value) || 0;
+        const age =
+          document.getElementById("ageGroup").selectedOptions[0].value || 0;
+        const deductions =
+          parseFloat(document.getElementById("applicableDeductions").value) ||
+          0;
+
+        // Hide all error messages initially
+        const errorMessages = document.querySelectorAll(".errorMsg");
+        errorMessages.forEach((errorMsg) => {
+          errorMsg.style.visibility = "hidden";
+        });
+
+        // Validate inputs
+        let hasError = false;
+        if (!annualIncome) {
+          displayErrorMessage("annualIncome");
+          hasError = true;
+        }
+        if (!extraIncome) {
+          displayErrorMessage("extraIncome");
+          hasError = true;
+        }
+        if (!age) {
+          displayErrorMessage("ageGroup");
+          hasError = true;
+        }
+        if (!deductions) {
+          displayErrorMessage("applicableDeductions");
+          console.log("deductions ", deductions);
+          hasError = true;
+        }
+
+        if (hasError) {
+          return;
+        }
+
+        const tax = calculateTax(age, annualIncome, extraIncome, deductions);
+        document.getElementById("myModal").style.display = "flex";
+        const result = document.getElementById("result");
+        result.innerText = formatIndianNumber(tax);
+      });
+
+      // Function to display error message
+      function displayErrorMessage(elementId) {
+        const errorMsg = document.querySelector(`#${elementId} ~ .errorMsg`);
+        errorMsg.style.visibility = "visible";
+      }
+
+      // Close modal when clicking outside of it
+      window.addEventListener("click", (e) => {
+        const modal = document.getElementById("myModal");
+        if (e.target === modal) {
+          modal.style.display = "none";
+        }
+      });
+
+      // Close modal when clicking close button
+      document.getElementById("closeModal").addEventListener("click", () => {
+        document.getElementById("myModal").style.display = "none";
+      });
+
+      function calculateTax(age, annualIncome, extraIncome, deductions) {
+        const overallIncome = annualIncome + extraIncome - deductions;
+
+        if (overallIncome <= 800000) {
+          return 0; // No tax
+        } else {
+          let taxableAmount = overallIncome - 800000;
+
+          // Applying tax rates based on age
+          if (age < 40) {
+            return taxableAmount * 0.3; // 30% tax rate
+          } else if (age >= 40 && age < 60) {
+            return taxableAmount * 0.4; // 40% tax rate
+          } else {
+            return taxableAmount * 0.1; // 10% tax rate
+          }
+        }
+      }
+
+      function formatIndianNumber(tax) {
+        const suffixes = ["", "Lakh", "Crore"];
+        let i = 0;
+
+        while (tax >= 100000) {
+          tax /= 100000; // Dividing by 100000 for each lakh
+          i++;
+        }
+
+        if (i > 0) {
+          return `${tax.toFixed(1)} ${suffixes[i]}`;
+        } else {
+          return `${tax.toFixed(2)} ${suffixes[i]}`;
+        }
+      }
+    </script>
   </body>
 </html>

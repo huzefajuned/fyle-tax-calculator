@@ -8,11 +8,16 @@ formData.addEventListener("submit", (e) => {
     parseFloat(document.getElementById("annualIncome").value) || 0;
   const extraIncome =
     parseFloat(document.getElementById("extraIncome").value) || 0;
-  const age = document.getElementById("ageGroup").value || 0;
+  const age = document.getElementById("ageGroup").selectedOptions[0].value || 0;
   const deductions =
     parseFloat(document.getElementById("applicableDeductions").value) || 0;
 
-  if (annualIncome == 0) {
+  console.log("annualIncome", annualIncome);
+  console.log("extraIncome", extraIncome);
+  console.log("age", age);
+  console.log("deductions", deductions);
+
+  if (annualIncome == 0 || age == 0) {
     return 0;
   }
   const tax = calculateTax(age, annualIncome, extraIncome, deductions);
@@ -60,12 +65,9 @@ function calculateTax(age, annualIncome, extraIncome, deductions) {
 /**
  * validateInput for inputs validation...
  */
-function validateInput() {
-  const annualIncome = document.getElementById("annualIncome");
-  annualIncome.addEventListener("input", (e) => {
-    const annualIncome = e.target.value;
-    console.log("annualIncome e ", annualIncome);
-  });
+function validateInput(elementId) {
+  var input = document.getElementById(elementId).value;
+  console.log(input + " &", "id is", elementId);
 }
 
 /**

@@ -5,7 +5,7 @@
 }
 
 .main {
-  background-color: rgb(255, 255, 255);
+  background-color: transparent;
   height: 100vh;
   width: 100vw;
   display: flex;
@@ -15,7 +15,6 @@
 }
 
 form {
-  background-color: rgb(255, 255, 255);
   width: 400px;
   height: 600px;
   display: flex;
@@ -23,12 +22,30 @@ form {
   justify-content: center;
   align-items: center;
   gap: 10px;
-  border: 1px solid rgb(232, 230, 230);
+  border: 2px solid rgb(232, 230, 230);
   border-radius: 10px;
   padding: 40px;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+    rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
 }
-
+form > div > input {
+  height: 40px;
+  width: 100%;
+  border: none;
+  font-size: 16px;
+  border: 2px solid rgb(231, 229, 229);
+  border-radius: 4px;
+  margin-left: 4px;
+  color: rgb(128, 131, 136);
+}
+/* .errorMsg {
+  background-color: rebeccapurple;
+  position: relative;
+  display: flex;
+  cursor: pointer;
+  top: 100px;
+  padding: 10px;
+} */
 .customInput {
   width: 100%;
   display: flex;
@@ -36,7 +53,6 @@ form {
   justify-content: center;
   align-items: center;
   border: 2px solid rgb(231, 229, 229);
-  box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
   border-radius: 4px;
 }
 .customInput > input {
@@ -44,8 +60,6 @@ form {
   width: 100%;
   border: none;
   font-size: 18px;
-  padding-left: 10px;
-
   outline: white;
 }
 .customInput > span {
@@ -70,22 +84,15 @@ label {
 img {
   cursor: pointer;
 }
-form > input {
-  height: 40px;
-  width: 100%;
-  border: none;
-  font-size: 18px;
-  border: 2px solid rgb(231, 229, 229);
-  box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
-  border-radius: 4px;
-  outline: white;
-  padding-left: 10px;
-}
-::placeholder {
+
+::placeholder,
+select {
   color: gainsboro;
   padding: 4px;
-  font-size: 16px;
+  font-size: 15px;
+  cursor: pointer;
 }
+
 form > button {
   background-color: rgb(12, 49, 108);
   color: white;
@@ -108,6 +115,7 @@ form > button:hover {
   position: relative;
   display: flex;
   cursor: pointer;
+  background-color: transparent;
 }
 
 .tooltip-text {
@@ -121,7 +129,7 @@ form > button:hover {
   position: absolute;
   z-index: 1;
   bottom: 125%;
-  margin-left: -80px;
+  right: -125px;
   opacity: 0;
   transition: opacity 0.3s;
   margin-left: 1px;
@@ -142,9 +150,16 @@ form > button:hover {
   z-index: 1;
 }
 
+.age {
+  padding: 10px;
+  width: 100%;
+  outline: none;
+  border: 2px solid rgb(231, 229, 229);
+  border-radius: 4px;
+}
 /* Modal styles */
 .modal {
-  display: none; /* Hidden by default */
+  display: none;
   flex-direction: column;
   justify-content: center;
   align-items: center;
