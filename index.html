@@ -9,6 +9,7 @@
         padding: 0;
         margin: 0;
         box-sizing: border-box;
+        font-family: "Times New Roman", Times, serif;
       }
 
       .main {
@@ -214,6 +215,20 @@
         background-color: rgba(0, 0, 0, 0.4);
       }
 
+      #result {
+        padding: 5px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+        font-size: 18px;
+      }
+      .heading {
+        font-size: 25px;
+      }
+      .description {
+        font-size: 16px;
+      }
       .modalContent {
         display: flex;
         flex-direction: column;
@@ -296,6 +311,7 @@
             type="text"
             id="annualIncome"
             placeholder="Enter gross annual income"
+            oninput="validateInput('annualIncome')"
           />
           <span class="errorMsg">
             <img
@@ -326,6 +342,7 @@
             type="text"
             id="extraIncome"
             placeholder="Enter extra income from other resources"
+            oninput="validateInput('extraIncome')"
           />
           <span class="errorMsg">
             <img
@@ -391,6 +408,7 @@
             type="text"
             id="applicableDeductions"
             placeholder="Enter total applicable deductions"
+            oninput="validateInput('applicableDeductions')"
           />
           <span class="errorMsg">
             <img
@@ -465,13 +483,18 @@
         const tax = calculateTax(age, annualIncome, extraIncome, deductions);
         document.getElementById("myModal").style.display = "flex";
         const result = document.getElementById("result");
-        result.innerText = formatIndianNumber(tax);
+        const incomeAfterTax = annualIncome + extraIncome - deductions - tax;
+        const resultText = `<p class="heading">Your Overall Income will be</p> ${formatIndianNumber(
+          incomeAfterTax
+        )} <p class='description'>after tax deduction.</p>`;
+        const resultElement = document.getElementById("result");
+        resultElement.innerHTML = resultText;
       });
 
       // Function to display error message
-      function displayErrorMessage(elementId) {
+      function displayErrorMessage(elementId, visibility) {
         const errorMsg = document.querySelector(`#${elementId} ~ .errorMsg`);
-        errorMsg.style.visibility = "visible";
+        errorMsg.style.visibility = visibility || "visible";
       }
 
       // Close modal when clicking outside of it
@@ -519,6 +542,28 @@
           return `${tax.toFixed(1)} ${suffixes[i]}`;
         } else {
           return `${tax.toFixed(2)} ${suffixes[i]}`;
+        }
+      }
+
+      /**
+       * validateInput for inputs validation...
+       */
+      function validateInput(elementId) {
+        var input = document.getElementById(elementId).value.trim(); // Trim whitespace
+
+        if (input === "") {
+          console.log("Input is empty");
+          return; // Exit the function if input is empty
+        }
+
+        // Check if input matches a valid number format
+        var isValidNumber = /^-?\d*\.?\d+(?:e[+-]?\d+)?$/.test(input);
+
+        if (!isValidNumber) {
+          displayErrorMessage(elementId);
+          hasError = true;
+        } else {
+          displayErrorMessage(elementId, "hidden");
         }
       }
     </script>
